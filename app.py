@@ -13,7 +13,7 @@ def create_app(test_config=None):
   CORS(app, resources={r"/*": {"origins": ['*']}})
   @app.after_request
   def after_request(response):
-        response.headers.add('Access-Control-Allow-Origin', '*')
+        response.headers.add('Access-Control-Allow-Origin')
         response.headers.add('Access-Control-Allow-Headers','Content-Type')
         response.headers.add('Access-Control-Allow-Methods', 'GET, POST, DELETE, PUT, PATCH, OPTIONS')
         return response
