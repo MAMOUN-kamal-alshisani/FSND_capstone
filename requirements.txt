@@ -28,3 +28,4 @@ pylint
 python-jose-cryptodome
 typed-ast
 wrapt
+python-dotenv
