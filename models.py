@@ -2,6 +2,7 @@ import os
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column,Integer, Date, String, create_engine
 from dotenv import load_dotenv
+load_dotenv()
 from flask_migrate import Migrate
 
 database_path = os.getenv('DATABASE_URL')
@@ -17,6 +18,23 @@ def setup_db(app, database_path = database_path):
     migrate = Migrate(app, db)
     # db.create_all()
 
+    # actor = Actors(id=3000, name='mamoun', age=30, gender='Male')
+    # db.session.add(actor)
+    # db.session.commit()
+
+    #     # Create a movie
+    # movie = Movies(id=3000,title='Movie 1', release_date='2021-01-01')
+    # db.session.add(movie)
+    # db.session.commit()
+
+    # def create_movie(id, title, release_date ):
+    #     movie = Movies(id=id, title=title, release_date = release_date)
+    #     db.session.add(movie)
+    #     db.session.commit()
+    # @app.before_first_request
+    # def initialize_database():
+    #     db.create_all()
+    #     create_movie(1, 'first_movie', '2023/9/1')
 
 class Movies(db.Model):
     __tablename__ = 'Movies'
@@ -26,6 +44,9 @@ class Movies(db.Model):
     release_date = Column(Date, nullable=False)
     actor = db.relationship('Actors', backref ='artist',lazy = True)   
 
+   
+
+    
     def __init__(self, title, release_date):
         self.title = title
         self.release_date = release_date

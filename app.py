@@ -24,6 +24,10 @@ def create_app(test_config=None):
         return 'Hello World'
   
 
+
+
+
+
   @app.route('/movies', methods=['GET'])
   @requires_auth('get:movies')
   def handle_fetch_movies(payload):
@@ -129,7 +133,7 @@ def create_app(test_config=None):
 
         if movie is not None:
               Movies.delete(movie)
-              return jsonify({"success": True, "message": 'specified movie has been deleted successfully '}), 201
+              return jsonify({"success": True, "message": 'specified movie has been deleted successfully '}), 200
 
     except Exception as error:
 
@@ -250,7 +254,7 @@ def create_app(test_config=None):
           abort(404)
 
 
-  @app.route('/author/<int:id>', methods = ['DELETE'])
+  @app.route('/actor/<int:id>', methods = ['DELETE'])
   @requires_auth('delete:actor')
   def handle_delete_actor(payload, id):
     try:
@@ -261,7 +265,7 @@ def create_app(test_config=None):
 
         if actor is not None:
               Actors.delete(actor)
-              return jsonify({"success": True, "message": 'specified actor has been deleted successfully '}), 201
+              return jsonify({"success": True, "message": 'specified actor has been deleted successfully '}), 200
 
     except Exception as error:
 
@@ -303,6 +307,13 @@ def create_app(test_config=None):
         'message': 'Internal Server Error'
     }), 500
 
+  @app.errorhandler(AuthError)
+  def auth_error(error):
+        return jsonify({
+            "success": False,
+            "error": 401,
+            "message": "You are not authorized."
+        }), 401
   return app
 
 app = create_app()
@@ -310,4 +321,4 @@ app = create_app()
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080, debug=True)
+    app.run(host='localhost', port=8080, debug=True)
