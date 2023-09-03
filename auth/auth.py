@@ -5,6 +5,8 @@ from jose import jwt
 from urllib.request import urlopen
 import os
 import requests
+from dotenv import load_dotenv
+load_dotenv()
 AUTH0_DOMAIN = os.getenv('AUTH0_DOMAIN')
 ALGORITHMS = os.getenv('ALGORITHMS')
 API_AUDIENCE = os.getenv('API_AUDIENCE')
@@ -53,10 +55,10 @@ def check_permissions(permission, payload):
     return True
 
 def verify_decode_jwt(token):
-    jsonurl = requests.get('https://dev-f0u7wasufi70tiya.us.auth0.com/.well-known/jwks.json')
-    # jsonurl = urlopen(f'https://{AUTH0_DOMAIN}/.well-known/jwks.json')
-    # jwks = json.loads(jsonurl.read())
-    jwks = jsonurl.json()
+    # jsonurl = requests.get('https://{AUTH0_DOMAIN}/.well-known/jwks.json')
+    jsonurl = urlopen(f'https://{AUTH0_DOMAIN}/.well-known/jwks.json')
+    jwks = json.loads(jsonurl.read())
+    # jwks = jsonurl.json()
     unverified_Header = jwt.get_unverified_header(token)
     rsa_key = {}
 
@@ -81,9 +83,9 @@ def verify_decode_jwt(token):
             payload = jwt.decode(
                 token,
                 rsa_key,
-                algorithms=['RS256'],
-                audience='capstone',
-                issuer='https://dev-f0u7wasufi70tiya.us.auth0.com/'
+                algorithms=ALGORITHMS,
+                audience=API_AUDIENCE,
+                issuer='https://' + AUTH0_DOMAIN + '/',
             )
 
             return payload

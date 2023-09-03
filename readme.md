@@ -13,7 +13,7 @@ capstone project is a casting agency company that is responsable for creating mo
 
 ### Database Setup for tests
 
-`createdb capstone_test`
+`createdb capstone`
 
 ### PIP Dependencies
 
